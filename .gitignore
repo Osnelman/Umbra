@@ -1,0 +1,14 @@
+# Artefacts de build
+*.iml
+.gradle/
+.gradle-user/
+build/
+local.properties
+
+# Métadonnées de l'éditeur
+.freebuff/
+
+# SDK Android et outils téléchargés localement
+android-sdk/
+tools/
+dl/

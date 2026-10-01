@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Bouclier dans la zone sûre de l'icône adaptative -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,28 L74,36 V54 C74,66 65,76 54,80 C43,76 34,66 34,54 V36 Z" />
+    <!-- Barre de interdiction -->
+    <path
+        android:fillColor="#FFE53935"
+        android:pathData="M50,44 h8 v24 h-8 Z" />
+</vector>

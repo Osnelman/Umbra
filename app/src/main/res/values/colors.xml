@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="page_bg">#FFFFFF</color>
+    <color name="title">#101828</color>
+    <color name="text_secondary">#5B6470</color>
+    <color name="card_bg">#F1F4F8</color>
+    <color name="status_on">#1B7F3B</color>
+    <color name="status_off">#C62828</color>
+    <color name="ic_launcher_background">#0E1A2B</color>
+</resources>

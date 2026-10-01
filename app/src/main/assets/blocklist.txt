@@ -1,0 +1,107 @@
+# Umbra — liste de blocage de démarrage
+#
+# Formats acceptés (un par ligne) :
+#   domaine simple          : pornhub.com
+#   TLD entier              : xxx            (bloque tout *.xxx)
+#   format hosts            : 0.0.0.0 pornhub.com
+#   AdGuard / EasyList      : ||pornhub.com^$third-party
+#   exception               : @@exemple.com
+#   commentaires            : lignes « # » ou « ! »
+#
+# Les mots-clés (porn, xxx, onlyfans, xnxx…) sont intégrés à l'application :
+# ils s'appliquent même aux domaines absents de cette liste.
+# Depuis l'app, « Mettre à jour la liste » charge une liste complète
+# (plusieurs millions de domaines) et remplace ce fichier.
+
+# --- TLD entiers ---
+xxx
+sex
+porn
+sexy
+
+# --- Tubes vidéo ---
+pornhub.com
+xvideos.com
+xnxx.com
+xhamster.com
+redtube.com
+youporn.com
+tube8.com
+spankbang.com
+beeg.com
+eporner.com
+porntube.com
+tnaflix.com
+nuvid.com
+empflix.com
+xtube.com
+4tube.com
+fuq.com
+youjizz.com
+sunporno.com
+alphaporno.com
+porntrex.com
+vporn.com
+wetplace.com
+zbporn.com
+txxx.com
+daftsex.com
+hclips.com
+porngo.com
+drtuber.com
+porndig.com
+efukt.com
+metaporn.com
+xvideo.com
+xnxx.tv
+pornhub.tv
+xvideos.red
+xhamster.tv
+tabootube.com
+
+# --- Studios / marques ---
+brazzers.com
+bangbros.com
+realitykings.com
+mofos.com
+twistys.com
+digitalplayground.com
+wicked.com
+adulttime.com
+naughtyamerica.com
+
+# --- Cam / adultes en direct ---
+chaturbate.com
+stripchat.com
+livejasmin.com
+cam4.com
+myfreecams.com
+bongacams.com
+flirt4free.com
+streamate.com
+camsoda.com
+imlive.com
+
+# --- Créateurs / plateformes ---
+onlyfans.com
+fansly.com
+mym.fans
+fanvue.com
+manyvids.com
+clips4sale.com
+
+# --- Hentai / NSFW ---
+nhentai.net
+hanime.tv
+hitomi.la
+exhentai.org
+e621.net
+gelbooru.com
+
+# --- Images / forums ---
+imagefap.com
+motherless.com
+pornpics.com
+sex.com
+porn.com
+xxx.com

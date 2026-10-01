@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Umbra</string>
+    <string name="app_tagline">Bloqueur porno système · verrou binaire</string>
+
+    <string name="status_on">Protection active</string>
+    <string name="status_off">Protection désactivée</string>
+    <string name="subtitle_on">VPN local actif — rien ne quitte ton téléphone</string>
+    <string name="subtitle_off">Active la protection pour filtrer toutes les applis</string>
+
+    <string name="toggle_label">Filtrer le porno partout</string>
+
+    <string name="stats_domains">Domaines connus : %1$s</string>
+    <string name="stats_blocked">Requêtes bloquées : %1$s (session : %2$s)</string>
+
+    <string name="recent_title">Derniers blocages</string>
+    <string name="recent_empty">Aucun blocage pour l\'instant.</string>
+
+    <string name="btn_update">Mettre à jour la liste de blocage</string>
+    <string name="btn_help">Aide &amp; limites</string>
+    <string name="btn_uninstall">Désactiver / retirer l\'app</string>
+
+    <string name="btn_hide">Masquer l\'icône de l\'app</string>
+    <string name="btn_show">Réafficher l\'icône</string>
+    <string name="hide_title">Masquer l\'icône ?</string>
+    <string name="hide_message">L\'icône disparaît du menu des applis, mais Umbra continue de filtrer en arrière-plan (VPN + notification « Protection active »).\n\nPour rouvrir l\'app :\n• tape sur la notification de protection,\n• ou compose *#*#4839#*#* dans le composeur.\n\nElle reste visible dans Réglages → Applications.\nAttention : si tu forces l\'arrêt de l\'app, elle ne redémarrera plus au reboot.</string>
+    <string name="hide_confirm">Masquer</string>
+    <string name="hide_need_active">Active d\'abord la protection (notification présente) avant de masquer l\'icône.</string>
+    <string name="hide_done">Icône masquée. Rouvre l\'app via la notification ou *#*#4839#*#*.</string>
+    <string name="show_done">Icône réaffichée.</string>
+
+    <string name="lock_state_none">Verrou de désinstallation : inactif</string>
+    <string name="lock_state_admin">Verrou : admin d\'appareil actif</string>
+    <string name="lock_state_do">Verrou : total (device owner)</string>
+    <string name="lock_enable_title">Activer le verrou admin ?</string>
+    <string name="lock_enable_msg">L\'admin d\'appareil rend la désinstallation refusée par Android tant que l\'admin n\'a pas été désactivé dans Réglages → Applications → Accès spécial.\n\n(Ne pas activer si tu prévois le verrou total device owner via ADB.)</string>
+    <string name="lock_enable_confirm">Activer</string>
+    <string name="lock_enable_explanation">Empêcher la désinstallation de Umbra sans désactivation préalable.</string>
+    <string name="lock_enabled">Verrou admin actif.</string>
+    <string name="lock_info_do_title">Verrou total actif</string>
+    <string name="lock_info_do_msg">Device owner actif : la désinstallation de Umbra est bloquée par Android (bouton grisé, refus système) et la réinitialisation d\'usine est restreinte.\n\nLe verrou ne peut être levé que par câble :\nadb shell dpm remove-active-admin com.freebuff.barrage/com.freebuff.barrage.admin.BarrageAdminReceiver</string>
+    <string name="lock_info_admin_title">Verrou admin actif</string>
+    <string name="lock_info_admin_msg">Tant que l\'admin est actif, Android refuse la désinstallation.\n\nPour retirer : Réglages → Applications → Accès spécial → Admin d\'appareil → décoche Umbra, puis désinstalle normalement.</string>
+
+    <string name="footnote">Filtrage 100 %% local : les requêtes DNS sont analysées sur le téléphone. Aucun trafic n\'est envoyé sur internet.</string>
+
+    <string name="notif_channel">Protection</string>
+    <string name="notif_title_on">Protection active</string>
+    <string name="notif_title_off">Umbra</string>
+    <string name="notif_block">Site bloqué : %1$s</string>
+
+    <string name="gate_title">Code binaire requis</string>
+    <string name="gate_message">Saisis ton code binaire (%1$d chiffres) pour continuer.</string>
+    <string name="gate_ok">Valider</string>
+    <string name="gate_cancel">Annuler</string>
+    <string name="gate_wrong">Code incorrect.</string>
+
+    <string name="code_title">Choisis ton code court</string>
+    <string name="code_message">3 à 10 chiffres. Il sera converti en code binaire : c\'est ta clé pour désactiver la protection.</string>
+    <string name="code_invalid">Code invalide : 3 à 10 chiffres, valeur ≥ 8.</string>
+    <string name="code_confirm_title">Note-le bien</string>
+    <string name="code_confirm_message">Ton code %1$s devient :\n\n%2$s\n\nC\'est ce long code binaire qu\'il faudra taper pour désactiver la protection ou retirer l\'app. C\'est long et chiant : c\'est fait exprès pour te laisser le temps de te calmer.</string>
+    <string name="code_saved">Code enregistré.</string>
+</resources>
