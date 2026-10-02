@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Installer le SDK Android
+        uses: android-actions/setup-android@v3
+
+      - name: Installer plateforme et build-tools
+        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Configurer Gradle (cache)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Compiler et lancer les tests
+        run: ./gradlew assembleDebug testDebugUnitTest --console=plain
+
+      - name: Publier l'APK comme artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Umbra-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Renommer l'APK
+        if: startsWith(github.ref, 'refs/tags/')
+        run: cp app/build/outputs/apk/debug/app-debug.apk "Umbra-${GITHUB_REF_NAME}.apk"
+
+      - name: Créer la release avec l'APK
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Umbra ${{ github.ref_name }}
+          files: Umbra-${{ github.ref_name }}.apk
+          body: |
+            ## Umbra ${{ github.ref_name }}
+
+            Bloqueur de sites adultes par **mini-VPN local** (filtrage DNS + domaines + mots-clés),
+            sans compte, sans serveur, tout reste sur l'appareil.
+
+            ### Installation
+            1. Télécharge le fichier `Umbra-${{ github.ref_name }}.apk` ci-dessous (sur le téléphone : *Ouvrir* une fois le téléchargement fini).
+            2. Android affiche une alerte « Sources inconnues » : autoriser l'installation depuis le navigateur/fichiers.
+            3. Ouvrir Umbra, appuyer sur **Activer le VPN** (Android demandera une permission de connexion VPN locale).
+            4. Optionnel : dans l'app, activer le **verrou administrateur** pour bloquer la désinstallation.
+
+            ### Débloquer l'application
+            Composez `*#*#4839#*#*` depuis le clavier de numérotation du téléphone (raccourci secret), ou utilisez le bouton de l'app,
+            puis saisissez le code binaire `1001011100111` (décimal `4839`).
+
+            ### Prérequis
+            Android 8.0 (API 26) ou plus récent.
+
+            ### Notes
+            - Exemption Doze à activer une fois via ADB : `adb shell dumpsys deviceidle whitelist +com.freebuff.barrage`
+            - Aucun compte, aucun serveur tiers : seules les requêtes DNS sont relayées vers 1.1.1.1 / 9.9.9.9.
