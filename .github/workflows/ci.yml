@@ -14,26 +14,40 @@ jobs:
       contents: write
 
     steps:
-      - name: Récupérer le dépôt
+      - name: Recuperer le depot
         uses: actions/checkout@v4
 
       - name: Installer Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
 
-      - name: Installer le SDK Android
-        uses: android-actions/setup-android@v3
-
-      - name: Installer plateforme et build-tools
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Verifier le SDK Android preinstallé
+        run: |
+          set -o pipefail
+          echo "ANDROID_HOME=${ANDROID_HOME:-}"
+          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-}"
+          SDKMANAGER="$(command -v sdkmanager || true)"
+          if [ -z "$SDKMANAGER" ]; then
+            SDKMANAGER="$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}" -name sdkmanager -type f 2>/dev/null | head -n 1 || true)"
+          fi
+          echo "sdkmanager=$SDKMANAGER"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "::error::sdkmanager introuvable sur le runner"
+            exit 1
+          fi
+          echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
+          yes | "$SDKMANAGER" --licenses >/dev/null 2>&1 || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Configurer Gradle (cache)
         uses: gradle/actions/setup-gradle@v4
 
       - name: Compiler et lancer les tests
-        run: ./gradlew assembleDebug testDebugUnitTest --console=plain
+        run: |
+          set -o pipefail
+          ./gradlew assembleDebug testDebugUnitTest --console=plain 2>&1 | tee build.log
 
       - name: Publier l'APK comme artefact
         uses: actions/upload-artifact@v4
@@ -42,11 +56,35 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
 
+      - name: Diagnostics en cas d'echec
+        if: failure()
+        run: |
+          mkdir -p ci-debug
+          {
+            echo "=== run ${{ github.run_number }} / ${{ github.sha }} ==="
+            echo
+            echo "--- env ---"
+            env | sort | grep -E 'ANDROID|JAVA|GRADLE|RUNNER' || true
+            echo
+            echo "--- SDK ---"
+            find "${ANDROID_HOME:-/usr/local/lib/android/sdk}" -maxdepth 2 2>/dev/null | head -60 || true
+            echo
+            echo "--- java ---"
+            java -version 2>&1 || true
+          } > ci-debug/env.txt 2>&1
+          cp build.log ci-debug/build.log 2>/dev/null || echo "pas de build.log" > ci-debug/build.log
+          git config user.name "ci-diagnostics"
+          git config user.email "ci-diagnostics@users.noreply.github.com"
+          git checkout -B ci-debug
+          git add ci-debug
+          git commit -m "Diagnostics CI run ${{ github.run_number }}" >/dev/null 2>&1 || exit 0
+          git push --force origin ci-debug
+
       - name: Renommer l'APK
         if: startsWith(github.ref, 'refs/tags/')
         run: cp app/build/outputs/apk/debug/app-debug.apk "Umbra-${GITHUB_REF_NAME}.apk"
 
-      - name: Créer la release avec l'APK
+      - name: Creer la release avec l'APK
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
@@ -59,12 +97,12 @@ jobs:
             sans compte, sans serveur, tout reste sur l'appareil.
 
             ### Installation
-            1. Télécharge le fichier `Umbra-${{ github.ref_name }}.apk` ci-dessous (sur le téléphone : *Ouvrir* une fois le téléchargement fini).
-            2. Android affiche une alerte « Sources inconnues » : autoriser l'installation depuis le navigateur/fichiers.
+            1. Télécharge le fichier `Umbra-${{ github.ref_name }}.apk` ci-dessous (sur le téléphone : ouvre le fichier une fois le téléchargement terminé).
+            2. Android affiche une alerte « Sources inconnues » : autoriser l'installation depuis le navigateur ou l'app Fichiers.
             3. Ouvrir Umbra, appuyer sur **Activer le VPN** (Android demandera une permission de connexion VPN locale).
             4. Optionnel : dans l'app, activer le **verrou administrateur** pour bloquer la désinstallation.
 
-            ### Débloquer l'application
+            ### Déverrouiller l'application
             Composez `*#*#4839#*#*` depuis le clavier de numérotation du téléphone (raccourci secret), ou utilisez le bouton de l'app,
             puis saisissez le code binaire `1001011100111` (décimal `4839`).
 
